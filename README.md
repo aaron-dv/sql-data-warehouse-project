@@ -136,6 +136,8 @@ data-warehouse-project/
 
 ---
 
-## Credits
+## Credits & References
 
 This project is based on a guided SQL data warehouse project by Data with Baraa.
+
+1. [SQL Data Warehouse from Scratch](https://www.youtube.com/watch?v=9GVqKuTVANE&t=7436s) - Data with Baraa
