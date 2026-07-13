@@ -12,7 +12,7 @@ Script Purpose:
     - Data consistency between related fields.
 
 Usage Notes:
-    - Run these checks after data loading Silver Layer.
+    - Run these checks after loading the Silver Layer.
     - Investigate and resolve any discrepancies found during the checks.
 ===============================================================================
 */
@@ -24,6 +24,7 @@ Usage Notes:
 
 
 -- Check for NULL or duplicate values in primary key
+-- Expectation: No results
 
 SELECT 
 	cst_id,
@@ -45,6 +46,7 @@ FROM
 WHERE t.flag_last != 1;
 
 -- Check for trailing or leading whitespaces
+-- Expectation: No results
 
 SELECT 
 	cst_firstname
@@ -67,10 +69,13 @@ FROM silver.crm_cust_info
 WHERE cst_gndr != TRIM(cst_gndr);
 
 -- Data Standardisation & Consistency
+-- Review the returned values and confirm they match the expected domain:
 
+-- 'Single', 'Married', and 'n/a'
 SELECT DISTINCT cst_marital_status 
 FROM silver.crm_cust_info;
 
+-- 'Female', 'Male', and 'n/a'
 SELECT DISTINCT cst_gndr
 FROM silver.crm_cust_info;
 
@@ -81,6 +86,7 @@ FROM silver.crm_cust_info;
 
 
 -- Check for NULL or duplicate values in primary key
+-- Expectation: No results
 
 SELECT 
 	prd_id,
@@ -90,6 +96,7 @@ GROUP BY prd_id
 HAVING COUNT(*) > 1 OR prd_id IS NULL;
 
 -- Check for trailing or leading whitespaces
+-- Expectation: No results
 
 SELECT 
 	prd_key
@@ -107,6 +114,7 @@ FROM silver.crm_prd_info
 WHERE prd_line != TRIM(prd_line);
 
 -- Check for NULL or negative values
+-- Expectation: No results
 
 SELECT
 	prd_cost  
@@ -119,6 +127,7 @@ SELECT DISTINCT prd_line
 FROM silver.crm_prd_info;
 
 -- Check for Invalid Dates
+-- Expectation: No results
 
 SELECT *
 FROM silver.crm_prd_info 
@@ -136,6 +145,7 @@ FROM silver.crm_prd_info;
 
 
 -- Check for records with invalid foreign keys
+-- Expectation: No results
 
 SELECT *
 FROM silver.crm_sales_details
@@ -146,6 +156,7 @@ FROM silver.crm_sales_details
 WHERE sls_prd_key NOT IN (SELECT prd_key FROM silver.crm_prd_info);
 
 -- Check for trailing or leading whitespaces
+-- Expectation: No results
 
 SELECT 
 	sls_ord_num
@@ -158,6 +169,7 @@ FROM silver.crm_sales_details
 WHERE sls_prd_key != TRIM(sls_prd_key);
 
 -- Check for Invalid Dates
+-- Expectation: No results
 
 SELECT *
 FROM silver.crm_sales_details
@@ -178,6 +190,7 @@ WHERE sls_due_dt IS NULL
    OR sls_due_dt < DATE '1900-01-01';
 
 -- Check for Invalid Order Dates
+-- Expectation: No results
 
 SELECT *
 FROM silver.crm_sales_details
@@ -186,6 +199,7 @@ WHERE sls_order_dt > sls_ship_dt OR sls_order_dt > sls_due_dt;
 -- Check data consistency: Sales, Quantity, and Price relationships
 -- >> Sales = Quantity * Price
 -- >> Values cannot be NULL, 0, or negative
+-- Expectation: No results
 
 SELECT 
 	sls_sales,
@@ -209,12 +223,14 @@ ORDER BY
 
 
 -- Check for records with invalid foreign keys
+-- Expectation: No results
 
 SELECT COUNT(*)
 FROM silver.erp_cust_az12
 WHERE cid NOT IN (SELECT cst_key FROM silver.crm_cust_info);
 
 -- Check for trailing or leading whitespaces
+-- Expectation: No results
 
 SELECT 
 	cid
@@ -227,6 +243,7 @@ FROM silver.erp_cust_az12
 WHERE gen != TRIM(gen);
 
 -- Check for Invalid Dates
+-- Expectation: No results
 
 SELECT *
 FROM silver.erp_cust_az12
@@ -234,7 +251,9 @@ WHERE bdate > CURRENT_DATE
    OR bdate < DATE '1924-01-01';
 
 -- Data Standardisation & Consistency
+-- Review the returned values and confirm they match the expected domain:
 
+-- 'Female', 'Male', and 'n/a'
 SELECT DISTINCT gen 
 FROM silver.erp_cust_az12;
 
@@ -245,12 +264,14 @@ FROM silver.erp_cust_az12;
 
 
 -- Check for records with invalid foreign keys
+-- Expectation: No results
 
 SELECT COUNT(*)
 FROM silver.erp_loc_a101
 WHERE cid NOT IN (SELECT cst_key FROM silver.crm_cust_info);
 
 -- Check for trailing or leading whitespaces
+-- Expectation: No results
 
 SELECT 
 	cid
@@ -274,11 +295,13 @@ FROM silver.erp_loc_a101;
 
 
 -- Check Table Overview
+-- Expectation: No results
 
 SELECT *
 FROM silver.erp_px_cat_g1v2;
 
 -- Check for Unwanted Spaces
+-- Expectation: No results
 
 SELECT * 
 FROM silver.erp_px_cat_g1v2
