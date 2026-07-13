@@ -128,6 +128,10 @@ data-warehouse-project/
 
 ## Project Documentation
 
+- [Data Architecture](docs/data_architecture.png)
+- [Data Flow](docs/data_flow.png)
+- [Data Integration](docs/data_integration.png)
+- [Gold Data Model](docs/data_model.png)
 - [Gold Layer Data Catalog](docs/data_catalog.md)
 - [Naming Conventions](docs/naming_conventions.md)
 - [Bronze Load Procedure](scripts/bronze/03_proc_load_bronze.sql)
