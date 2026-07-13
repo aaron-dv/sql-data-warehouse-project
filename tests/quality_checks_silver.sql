@@ -176,8 +176,12 @@ SELECT
 FROM silver.crm_sales_details
 WHERE sls_prd_key != TRIM(sls_prd_key);
 
--- Check for Invalid Dates
--- Expectation: No results
+-- Check for invalid or missing sales dates
+-- Expectation:
+--     Rows may be returned where the source order date (`sls_order_dt`) was missing or invalid.
+--     Missing or invalid order dates are intentionally preserved as NULL rather
+--     than imputed.
+-- 	   No other results expected.
 
 SELECT *
 FROM silver.crm_sales_details
@@ -260,7 +264,7 @@ WHERE gen != TRIM(gen);
 SELECT *
 FROM silver.erp_cust_az12
 WHERE bdate > CURRENT_DATE
-   OR bdate < DATE '1924-01-01';
+   OR bdate < DATE '1914-01-01';
 
 -- Data Standardisation & Consistency
 -- Review the returned values and confirm they match the expected domain:

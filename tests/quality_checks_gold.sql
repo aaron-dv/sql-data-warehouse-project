@@ -214,7 +214,10 @@ HAVING COUNT(*) > 1;
 
 -- -----------------------------------------------------------------------------
 -- Check date completeness and sequence
--- Expectation: No results
+-- Expectation:
+--     Rows may be returned where the source order date was missing or invalid.
+--     These values are intentionally preserved as NULL rather than imputed.
+--     No other results expected.
 -- -----------------------------------------------------------------------------
 
 SELECT *

@@ -231,6 +231,17 @@ This relationship should be validated during silver-layer data-quality checks.
 
 ---
 
+## Known Data Quality Limitation
+
+Some source sales records contain missing or invalid order dates.
+
+These values are standardised to `NULL` in the Silver Layer rather than being artificially imputed. 
+The affected records remain available in the Gold Layer and are identified by the data-quality validation checks.
+
+This preserves the source record without introducing an unsupported or misleading date.
+
+---
+
 ## Example Analytical Queries
 
 The Gold Layer supports questions such as:
