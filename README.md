@@ -108,6 +108,7 @@ data-warehouse-project/
 │   ├── data_architecture.png
 │   ├── data_catalog.md
 │   ├── data_flow.png
+│   ├── data_integration.png
 │   ├── data_model.png
 │   └── naming_conventions.md
 │
@@ -129,9 +130,9 @@ data-warehouse-project/
 
 - [Gold Layer Data Catalog](docs/data_catalog.md)
 - [Naming Conventions](docs/naming_conventions.md)
-- [Bronze Load Procedure](scripts/bronze/003_proc_load_bronze.sql)
-- [Silver Transformation Procedure](scripts/silver/005_proc_load_silver.sql)
-- [Gold Dimensional Model](scripts/gold/006_ddl_gold.sql)
+- [Bronze Load Procedure](scripts/bronze/03_proc_load_bronze.sql)
+- [Silver Transformation Procedure](scripts/silver/05_proc_load_silver.sql)
+- [Gold Dimensional Model](scripts/gold/06_ddl_gold.sql)
 - [Silver Quality Checks](tests/quality_checks_silver.sql)
 - [Gold Quality Checks](tests/quality_checks_gold.sql)
 
@@ -152,22 +153,21 @@ data-warehouse-project/
    - Warning: this script drops and recreates the `data_warehouse` database.
 2. Connect to the new `data_warehouse` database.
 3. Run `scripts/01_create_schemas.sql`.
-4. Run `scripts/bronze/002_ddl_bronze.sql`.
-5. Update the source dataset path in `scripts/bronze/003_proc_load_bronze.sql`.
-6. Run `scripts/bronze/003_proc_load_bronze.sql`.
-7. Execute:
+4. Run `scripts/bronze/02_ddl_bronze.sql`.
+5. Run `scripts/bronze/03_proc_load_bronze.sql`.
+6. Execute the procedure, passing the absolute dataset directory on the PostgreSQL server:
 ```sql
 CALL bronze.load_bronze('/path/to/datasets');
 ```
-8. Run `scripts/silver/004_ddl_silver.sql`.
-9. Run `scripts/silver/005_proc_load_silver.sql`.
-10. Execute:
+7. Run `scripts/silver/04_ddl_silver.sql`.
+8. Run `scripts/silver/05_proc_load_silver.sql`.
+9. Execute:
 ```sql
 CALL silver.load_silver();
 ```
-11. Run `tests/quality_checks_silver.sql`.
-12. Run `scripts/gold/006_ddl_gold.sql`.
-13. Run `tests/quality_checks_gold.sql`.
+10. Run `tests/quality_checks_silver.sql`.
+11. Run `scripts/gold/06_ddl_gold.sql`.
+12. Run `tests/quality_checks_gold.sql`.
 
 ---
 
@@ -200,6 +200,7 @@ Build a SQL data warehouse to consolidate sales data and support analytical repo
 | Gold fact | `fact_<entity>` | `fact_sales` |
 | Metadata column | `dwh_<column_name>` | `dwh_create_date` |
 | Load procedure/script | `load_<layer>` | `load_bronze` |
+| Gold aggregate | `agg_<entity>_<grain>` | `agg_sales_monthly` |
 
 ---
 
