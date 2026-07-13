@@ -251,8 +251,9 @@ ORDER BY total_sales DESC;
 
 ---
 
-## Credits & References
+## Credits and References
 
-This project is based on a guided SQL data warehouse project by Data with Baraa.
+This project was developed using the guided project below as a learning
+foundation and independently adapted for PostgreSQL.
 
-1. [SQL Data Warehouse from Scratch](https://www.youtube.com/watch?v=9GVqKuTVANE) - Data with Baraa
+1. [SQL Data Warehouse from Scratch](https://www.youtube.com/watch?v=9GVqKuTVANE) — Data with Baraa
