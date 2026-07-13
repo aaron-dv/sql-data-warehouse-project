@@ -235,9 +235,9 @@ FROM gold.fact_sales
 WHERE sales_amount IS NULL
    OR quantity IS NULL
    OR price IS NULL
-   OR sales_amount < 0
+   OR sales_amount <= 0
    OR quantity <= 0
-   OR price < 0;
+   OR price <= 0;
 
 -- -----------------------------------------------------------------------------
 -- Validate the sales amount calculation
