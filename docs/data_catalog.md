@@ -252,4 +252,4 @@ The Gold Layer supports questions such as:
 | -------------------- | --------- | --------------------------------------------- |
 | `gold.dim_customers` | Dimension | One row per customer                          |
 | `gold.dim_products`  | Dimension | One row per current product                   |
-| `gold.fact_sales`    | Fact      | One row per sales-order line item per product |
+| `gold.fact_sales` | Fact | One row per sales-order line item |
