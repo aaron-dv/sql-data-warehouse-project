@@ -5,11 +5,6 @@ Thumbs.db
 # Ignore local configuration files
 *.env
 
-# Ignore SQL Server-related files
-*.mdf
-*.ldf
-*.ndf
-
 # Ignore temporary or backup files
 *.log
 *.bak
@@ -19,6 +14,6 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Ignore exported data or diagrams (if applicable)
-*.csv
-*.pdf
+# Ignore locally generated or exported CSV files
+exports/*.csv
+output/*.csv
