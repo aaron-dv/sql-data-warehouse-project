@@ -159,7 +159,7 @@ data-warehouse-project/
 3. Run `scripts/01_create_schemas.sql`.
 4. Run `scripts/bronze/02_ddl_bronze.sql`.
 5. Run `scripts/bronze/03_proc_load_bronze.sql`.
-6. Execute the procedure, passing the absolute dataset directory on the PostgreSQL server:
+6. Execute the procedure, passing the absolute path of the dataset directory on the PostgreSQL server:
 ```sql
 CALL bronze.load_bronze('/path/to/datasets');
 ```
