@@ -148,12 +148,20 @@ FROM silver.crm_prd_info;
 -- Expectation: No results
 
 SELECT *
-FROM silver.crm_sales_details
-WHERE sls_cust_id NOT IN (SELECT cst_id FROM silver.crm_cust_info);
+FROM silver.crm_sales_details AS sales
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM silver.crm_cust_info AS customers
+    WHERE customers.cst_id = sales.sls_cust_id
+);
 
 SELECT *
-FROM silver.crm_sales_details
-WHERE sls_prd_key NOT IN (SELECT prd_key FROM silver.crm_prd_info);
+FROM silver.crm_sales_details AS sales
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM silver.crm_prd_info AS products
+    WHERE products.prd_key = sales.sls_prd_key
+);
 
 -- Check for trailing or leading whitespaces
 -- Expectation: No results
@@ -225,9 +233,13 @@ ORDER BY
 -- Check for records with invalid foreign keys
 -- Expectation: No results
 
-SELECT COUNT(*)
-FROM silver.erp_cust_az12
-WHERE cid NOT IN (SELECT cst_key FROM silver.crm_cust_info);
+SELECT *
+FROM silver.erp_cust_az12 AS erp_customer
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM silver.crm_cust_info AS crm_customer
+    WHERE crm_customer.cst_key = erp_customer.cid
+);
 
 -- Check for trailing or leading whitespaces
 -- Expectation: No results
@@ -266,9 +278,13 @@ FROM silver.erp_cust_az12;
 -- Check for records with invalid foreign keys
 -- Expectation: No results
 
-SELECT COUNT(*)
-FROM silver.erp_loc_a101
-WHERE cid NOT IN (SELECT cst_key FROM silver.crm_cust_info);
+SELECT *
+FROM silver.erp_loc_a101 AS location
+WHERE NOT EXISTS (
+    SELECT 1
+    FROM silver.crm_cust_info AS customer
+    WHERE customer.cst_key = location.cid
+);
 
 -- Check for trailing or leading whitespaces
 -- Expectation: No results
