@@ -18,14 +18,17 @@ Important:
     user must have permission to read them.
 
 Parameters:
-    None.
+    base_path - the absolute path of the dataset on the
+    PostgreSQL server.
 
 Usage Example:
-    CALL bronze.load_bronze();
+    CALL bronze.load_bronze('/mnt/ehdd/dwh_project/datasets');
 ===============================================================================
 */
 
-CREATE OR REPLACE PROCEDURE bronze.load_bronze()
+CREATE OR REPLACE PROCEDURE bronze.load_bronze(
+    base_path TEXT
+)
 LANGUAGE plpgsql
 AS $$
 DECLARE
@@ -34,7 +37,6 @@ DECLARE
     batch_start_time  TIMESTAMP;
     batch_end_time    TIMESTAMP;
 
-    base_path TEXT := '/mnt/ehdd/dwh_project/datasets';
 BEGIN
     batch_start_time := clock_timestamp();
 
