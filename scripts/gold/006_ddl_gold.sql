@@ -59,7 +59,7 @@ ON
 
 
 -- =============================================================================
--- Create Dimension: gold.dim_products
+-- Create Dimension View: gold.dim_products
 -- =============================================================================
 
 
@@ -86,7 +86,7 @@ WHERE cpi.prd_end_dt IS NULL; -- Filter out all historic data
 
 
 -- =============================================================================
--- Create Fact Table: gold.fact_sales
+-- Create Fact View: gold.fact_sales
 -- =============================================================================
 
 
