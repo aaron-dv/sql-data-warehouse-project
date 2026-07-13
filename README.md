@@ -8,6 +8,45 @@ The goal is to consolidate CRM and ERP sales data from CSV files, clean and stan
 
 ---
 
+## Project Documentation
+
+- [Gold Layer Data Catalog](docs/data_catalog.md)
+- [Naming Conventions](docs/naming_conventions.md)
+- [Bronze Load Procedure](scripts/bronze/003_proc_load_bronze.sql)
+- [Silver Transformation Procedure](scripts/silver/005_proc_load_silver.sql)
+- [Gold Dimensional Model](scripts/gold/006_ddl_gold.sql)
+- [Silver Quality Checks](tests/quality_checks_silver.sql)
+- [Gold Quality Checks](tests/quality_checks_gold.sql)
+
+--
+
+## How to Run the Project
+
+### Prerequisites
+
+- PostgreSQL
+- A PostgreSQL role permitted to create databases and schemas
+- Permission to use server-side `COPY`
+- Source CSV files available on the PostgreSQL server filesystem
+
+### Execution Order
+
+1. Run `scripts/00_create_database.sql` while connected to an administrative database such as `postgres`.
+2. Connect to the new `data_warehouse` database.
+3. Run `scripts/01_create_schemas.sql`.
+4. Run `scripts/bronze/002_ddl_bronze.sql`.
+5. Configure the source dataset path in `scripts/bronze/003_proc_load_bronze.sql`.
+6. Run `scripts/bronze/003_proc_load_bronze.sql`.
+7. Execute `CALL bronze.load_bronze();`.
+8. Run `scripts/silver/004_ddl_silver.sql`.
+9. Run `scripts/silver/005_proc_load_silver.sql`.
+10. Execute `CALL silver.load_silver();`.
+11. Run `tests/quality_checks_silver.sql`.
+12. Run `scripts/gold/006_ddl_gold.sql`.
+13. Run `tests/quality_checks_gold.sql`.
+
+---
+
 ## Project Requirements
 
 ### Objective
@@ -28,17 +67,7 @@ Build a SQL data warehouse to consolidate sales data and support analytical repo
 
 The warehouse follows a medallion architecture with three layers:
 
-```text
-Source CSV Files
-        ↓
-Bronze Layer
-        ↓
-Silver Layer
-        ↓
-Gold Layer
-        ↓
-Analytics / Reporting
-```
+![Data warehouse architecture](docs/data_architecture.png)
 
 | Layer | Purpose |
 | --- | --- |
@@ -57,9 +86,9 @@ Analytics / Reporting
 
 ---
 
-## Expected Gold Model
+## Gold Model
 
-The gold layer will use a dimensional model designed for analytical queries.
+The gold layer uses a dimensional model designed for analytical queries.
 
 ```text
 gold.dim_customers
@@ -77,9 +106,10 @@ data-warehouse-project/
 ├── datasets/              # Source CSV files
 │
 ├── docs/                  # Project documentation and diagrams
-│   ├── data_architecture.drawio
-│   ├── data_flow.drawio
-│   ├── data_models.drawio
+│   ├── data_architecture.png
+|   |-- data_catalog.md
+│   ├── data_flow.png
+│   ├── data_model.png
 │   └── naming_conventions.md
 │
 ├── scripts/               # SQL scripts
