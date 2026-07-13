@@ -64,6 +64,18 @@ GROUP BY customer_number
 HAVING COUNT(*) > 1;
 
 -- -----------------------------------------------------------------------------
+-- Check customer ID uniqueness
+-- Expectation: No results
+-- -----------------------------------------------------------------------------
+
+SELECT
+    customer_id,
+    COUNT(*) AS duplicate_count
+FROM gold.dim_customers
+GROUP BY customer_id
+HAVING COUNT(*) > 1;
+
+-- -----------------------------------------------------------------------------
 -- Check for missing customer surrogate keys
 -- Expectation: No results
 -- -----------------------------------------------------------------------------

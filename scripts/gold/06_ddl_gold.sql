@@ -32,7 +32,9 @@ DROP VIEW IF EXISTS gold.dim_customers;
 
 CREATE VIEW gold.dim_customers AS 
 SELECT 
-	ROW_NUMBER() OVER (ORDER BY cst_id) AS customer_key,
+	ROW_NUMBER() OVER (
+		ORDER BY cci.cst_id, cci.cst_key
+	) AS customer_key,
 	cci.cst_id AS customer_id,
 	cci.cst_key AS customer_number,
 	cci.cst_firstname AS first_name,
@@ -65,7 +67,9 @@ ON
 
 CREATE VIEW gold.dim_products AS 
 SELECT 
-	ROW_NUMBER() OVER (ORDER BY cpi.prd_start_dt, cpi.prd_key) AS product_key,
+	ROW_NUMBER() OVER (
+		ORDER BY cpi.prd_start_dt, cpi.prd_key, cpi.prd_id
+	) AS product_key,
 	cpi.prd_id AS product_id,
 	cpi.prd_key AS product_number,
 	cpi.prd_nm AS product_name,
@@ -92,15 +96,15 @@ WHERE cpi.prd_end_dt IS NULL; -- Filter out all historic data
 
 CREATE VIEW gold.fact_sales AS
 SELECT
-    sls_ord_num AS order_number,
-    dp.product_key,
-    dc.customer_key,
-    sls_order_dt AS order_date,
-    sls_ship_dt AS shipping_date,
-    sls_due_dt AS due_date,
-    sls_sales AS sales_amount,
-    sls_quantity AS quantity,
-    sls_price AS price
+    csd.sls_ord_num   AS order_number,
+	dp.product_key    AS product_key,
+	dc.customer_key   AS customer_key,
+	csd.sls_order_dt  AS order_date,
+	csd.sls_ship_dt   AS shipping_date,
+	csd.sls_due_dt    AS due_date,
+	csd.sls_sales     AS sales_amount,
+	csd.sls_quantity  AS quantity,
+	csd.sls_price     AS price
 FROM
     silver.crm_sales_details csd
 LEFT JOIN 

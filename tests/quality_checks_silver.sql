@@ -295,7 +295,7 @@ FROM silver.erp_loc_a101;
 
 
 -- Check Table Overview
--- Expectation: No results
+-- Review the returned rows for obvious anomalies
 
 SELECT *
 FROM silver.erp_px_cat_g1v2;
